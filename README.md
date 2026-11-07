@@ -81,7 +81,6 @@ help/
 │   ├── decisoes.md          ← por que cada escolha (18 decisões)
 │   ├── seguranca.md         ← regras, revisão e riscos que restam
 │   ├── como-rodar.md        ← instalação, uso e problemas comuns
-│   ├── entrevista.md        ← pitch e perguntas com respostas
 │   └── etapas/              ← um .md por etapa da reestruturação
 ├── pytest.ini
 └── requirements.txt
@@ -95,7 +94,6 @@ help/
 | entender as camadas e o fluxo | [docs/arquitetura.md](docs/arquitetura.md) |
 | saber por que escolhi cada coisa | [docs/decisoes.md](docs/decisoes.md) |
 | ver o que está protegido e o que falta | [docs/seguranca.md](docs/seguranca.md) |
-| treinar para a entrevista | [docs/entrevista.md](docs/entrevista.md) |
 | ver como cada etapa foi feita | [docs/etapas/](docs/etapas/) |
 
 ## Limites conhecidos (e próximos passos)

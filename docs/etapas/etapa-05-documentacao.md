@@ -11,7 +11,6 @@
 | `docs/decisoes.md` | 18 decisões com motivo e alternativa |
 | `docs/seguranca.md` | regras e onde cada uma é garantida no código, achados da revisão e riscos que restam |
 | `docs/como-rodar.md` | instalação, uso das opções, testes e problemas comuns |
-| `docs/entrevista.md` | pitch de 1 minuto, 17 perguntas com resposta curta e o que não falar |
 | `docs/etapas/` | um arquivo por etapa (0 a 5), com o passo a passo |
 | `README.md` | visão geral, tabela de stack, fluxo, estrutura, mapa da documentação e limites conhecidos |
 
