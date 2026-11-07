@@ -1,3 +1,18 @@
+# Python
+.venv/
+venv/
 __pycache__/
 *.pyc
 .pytest_cache/
+
+# Segredos locais
+.env
+
+# Planejamento local (a história fica em docs/)
+PLANO.md
+
+# Editor / SO
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
