@@ -13,6 +13,31 @@ from pathlib import Path
 
 from send2trash import send2trash
 
+# Nomes que NUNCA devem ir pra Lixeira por este programa. A regra "nunca
+# mexe em Windows, drivers, antivirus, WebView2/EdgeCore" aparece na tela
+# (textos.py) - esta lista e o que faz o codigo cumprir essa promessa.
+# Os nomes curtos (ex.: "amd") so contam se o nome da pasta for EXATAMENTE
+# igual, senao "amd" casaria com qualquer palavra que tenha essas letras.
+NOMES_PROTEGIDOS_PARCIAIS = (
+    "windows", "microsoft", "webview", "edgecore", "msedge",
+    "defender", "antivirus", "driver",
+)
+NOMES_PROTEGIDOS_EXATOS = ("amd", "intel", "nvidia", "realtek")
+
+
+def eh_protegido(caminho: Path) -> bool:
+    """
+    Diz se um item e protegido (True = este programa nao pode mexer).
+
+    So olha o NOME do proprio item, nao as pastas de cima. Se olhasse o
+    caminho inteiro, tudo dentro da pasta Temp do Windows viraria "protegido"
+    so por estar dentro de uma pasta chamada Windows.
+    """
+    nome = caminho.name.lower()
+    if nome in NOMES_PROTEGIDOS_EXATOS:
+        return True
+    return any(palavra in nome for palavra in NOMES_PROTEGIDOS_PARCIAIS)
+
 
 def listar_itens_de(caminho: Path) -> list[Path]:
     """
@@ -36,9 +61,16 @@ def mandar_para_lixeira(itens: list[Path]) -> tuple[list[Path], list[Path]]:
     esta usando naquele momento nao pode ser movido). Por isso a funcao
     devolve DUAS listas: quem deu certo e quem deu errado, pra gente
     poder avisar o usuario direitinho sem o programa quebrar no meio.
+
+    Item protegido (veja eh_protegido) nem chega a ser tentado: cai direto
+    em "falhas". Esta e a ultima barreira - mesmo que alguma outra funcao
+    deixe passar um item delicado, ele nao vai pra Lixeira.
     """
     sucesso, falhas = [], []
     for item in itens:
+        if eh_protegido(item):
+            falhas.append(item)
+            continue
         try:
             send2trash(str(item))
             sucesso.append(item)
@@ -136,7 +168,7 @@ def pastas_appdata_suspeitas() -> list[Path]:
         if not base.exists():
             continue
         for item in base.iterdir():
-            if not item.is_dir():
+            if not item.is_dir() or eh_protegido(item):
                 continue
             nome = item.name.lower()
             # "combina" vira True se o nome da pasta aparecer dentro do
