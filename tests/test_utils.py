@@ -27,3 +27,28 @@ def test_calcular_percentual_normal():
 
 def test_calcular_percentual_total_zero():
     assert calcular_percentual(10, 0) == 0.0
+
+
+# --- confirmar e linha (interativas: o input() e trocado por respostas combinadas) ---
+
+import pytest
+
+from faxineira.utils import confirmar, linha
+
+
+@pytest.mark.parametrize("resposta, esperado", [("s", True), ("SIM", True), ("n", False), ("nao", False), ("não", False)])
+def test_confirmar_aceita_sim_e_nao(monkeypatch, resposta, esperado):
+    monkeypatch.setattr("builtins.input", lambda *args: resposta)
+
+    assert confirmar("Apagar?") is esperado
+
+
+def test_confirmar_pergunta_de_novo_se_a_resposta_for_estranha(monkeypatch):
+    respostas = iter(["talvez", "", "s"])
+    monkeypatch.setattr("builtins.input", lambda *args: next(respostas))
+
+    assert confirmar("Apagar?") is True
+
+
+def test_linha_tem_o_tamanho_pedido():
+    assert linha("-", 10) == "-" * 10
